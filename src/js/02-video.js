@@ -3,11 +3,29 @@ import Player from '@vimeo/player';
 const iframe = document.querySelector('iframe');
 const player = new Player(iframe);
 
-// player.on('timeupdate', onTimeUpdate());
+const currentTime = player.on('timeupdate', () => {});
 
-// const onTimeUpdate = () => {};
+player
+  .setCurrentTime(currentTime)
+  .then(function (seconds) {
+    localStorage.setItem(
+      'videoplayer-current-time',
+      Math.round(JSON.stringify(seconds))
+    );
+  })
+  .catch(function (error) {
+    switch (error.name) {
+      case 'RangeError':
+        // the time was less than 0 or greater than the video’s duration
+        break;
 
-localStorage.setItem('videoplayer-current-time', JSON.stringify('user'));
-const response = localStorage.getItem('videoplayer-current-time');
+      default:
+        // some other error occurred
+        break;
+    }
+  });
 
-console.log(JSON.parse(response));
+// localStorage.setItem('videoplayer-current-time', JSON.stringify('user'));
+// const response = localStorage.getItem('videoplayer-current-time');
+
+// console.log(JSON.parse(response));
