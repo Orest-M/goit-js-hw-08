@@ -33,7 +33,7 @@ function res() {
     if (data) {
       formData = JSON.parse(data);
     } else {
-      console.log('no data');
+      return
     }
 
     if (formData.email && formData.message) {
